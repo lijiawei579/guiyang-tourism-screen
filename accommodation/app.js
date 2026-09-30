@@ -291,7 +291,8 @@ function renderMap() {
   const countyGeo = cityView ? window.GUIZHOU_COUNTY_GEOJSON?.[cityAdcodes[mapDrill.city]] : null;
   if (cityView && !countyGeo?.features?.length) { $('#geoRegions').innerHTML = '<text x="410" y="215" text-anchor="middle" fill="#9bc2ca">区县地图数据加载失败</text>'; $('#mapLabels').innerHTML = ''; return; }
   const mapFeatures = cityView ? countyGeo.features : geo.features;
-  const coordinates = mapFeatures.flatMap(flattenCoordinates);
+  const referenceFeatures = cityView ? window.FUNCTIONAL_BOUNDARIES?.features || [] : [];
+  const coordinates = [...mapFeatures,...referenceFeatures].flatMap(flattenCoordinates);
   const lngs = coordinates.map(([lng])=>lng), lats = coordinates.map(([,lat])=>lat);
   const minLng=Math.min(...lngs),maxLng=Math.max(...lngs),minLat=Math.min(...lats),maxLat=Math.max(...lats);
   const width=820,height=430,padding=25,ratio=Math.min((width-padding*2)/(maxLng-minLng),(height-padding*2)/(maxLat-minLat));
@@ -306,6 +307,13 @@ function renderMap() {
   $('#geoRegions').innerHTML=mapFeatures.map((feature,index)=>{const heat=countyValue(mapDrill.city,index);const selected=mapDrill.level==='county'&&feature.properties.name===mapDrill.county;return `<path class="county-region${selected?' is-selected':''}" data-county="${feature.properties.name}" style="--city-color:${heatColor(heat)}" d="${pathFor(feature,project)}"></path>`;}).join('');
   $('#mapLabels').innerHTML=mapFeatures.map(feature=>{const fallback=featureBounds(feature);const [lng,lat]=feature.properties.centroid||feature.properties.center||[(fallback.minLng+fallback.maxLng)/2,(fallback.minLat+fallback.maxLat)/2];const [x,y]=project(lng,lat);return `<text class="county-label" x="${x}" y="${y+3}">${feature.properties.name}</text>`;}).join('');
   $$('.county-region').forEach(path=>path.addEventListener('click',event=>{event.stopPropagation();mapDrill.level='county';mapDrill.county=path.dataset.county;renderMap();renderAll();}));
+  $('#geoRegions').insertAdjacentHTML('beforeend',referenceFeatures.map(feature=>`<path class="functional-reference-region" role="button" tabindex="0" aria-label="查看${feature.properties.name}参考范围" data-reference="${feature.properties.id}" fill="${feature.properties.color}" stroke="${feature.properties.color}" d="${pathFor(feature,project)}"><title>${feature.properties.name}：${feature.properties.scope}</title></path>`).join(''));
+  $('#mapLabels').insertAdjacentHTML('beforeend',referenceFeatures.map(feature=>{const [lng,lat]=feature.properties.id==='guian'?[106.472,26.459]:[106.84,26.5];const [labelX,labelY]=project(lng,lat);return `<text class="functional-reference-text" x="${labelX}" y="${labelY}" fill="${feature.properties.color}">${feature.properties.id==='guian'?'贵安新区':'双龙航空港'} · 参考</text>`;}).join(''));
+  $$('[data-reference]').forEach(path=>{
+    const openReference = event => {event.stopPropagation();document.querySelector(`[data-fm-open="${path.dataset.reference}"]`)?.click();};
+    path.addEventListener('click',openReference);
+    path.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();openReference(event);}});
+  });
 }
 
 function updateMap() {

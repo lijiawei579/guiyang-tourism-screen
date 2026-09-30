@@ -1,0 +1,652 @@
+/* Third-edition readability and proportion calibration */
+.topbar {
+  height: 76px;
+}
+
+.system-mark {
+  gap: 5px;
+  font-size: 13px;
+}
+
+.system-mark em {
+  font-size: 10px;
+}
+
+.title small {
+  margin-bottom: 4px;
+  font-size: 10px;
+}
+
+.title h1 {
+  font-size: 34px;
+}
+
+.clock {
+  font-size: 12px;
+}
+
+.clock strong {
+  font-size: 20px;
+}
+
+.commandbar {
+  height: 54px;
+}
+
+.commandbar nav,
+.commandbar form {
+  font-size: 12px;
+}
+
+.commandbar nav strong {
+  font-size: 15px;
+}
+
+.commandbar input,
+.commandbar select,
+.commandbar button {
+  height: 32px;
+}
+
+.layout {
+  height: 897px;
+  grid-template-columns: 520px minmax(0, 1fr) 520px;
+  gap: 16px;
+}
+
+.left-stack,
+.center-stack,
+.right-stack {
+  gap: 14px;
+}
+
+.left-stack {
+  grid-template-rows: 385px 285px 1fr;
+}
+
+.center-stack {
+  grid-template-rows: 186px 1fr;
+}
+
+.right-stack {
+  grid-template-rows: 300px 300px 1fr;
+}
+
+.panel > header,
+.map-panel > header {
+  height: 48px;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.panel > header > span {
+  font-size: 11px;
+}
+
+.panel h2,
+.map-panel h2 {
+  font-size: 16px;
+  letter-spacing: .5px;
+}
+
+.panel header small,
+.map-panel header small,
+.panel header > button {
+  font-size: 10px;
+}
+
+.panel-body {
+  height: calc(100% - 48px);
+  padding: 12px 14px;
+}
+
+.tabs button {
+  height: 27px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+.center-kpis {
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.center-kpis .kpi {
+  padding: 11px 16px;
+}
+
+.center-kpis .kpi span {
+  font-size: 12px;
+}
+
+.center-kpis .kpi strong {
+  margin-top: 6px;
+  font-size: 25px;
+}
+
+.center-kpis .kpi strong em {
+  font-size: 12px;
+}
+
+.center-kpis .kpi small {
+  right: 12px;
+  bottom: 8px;
+  font-size: 10px;
+}
+
+.center-kpis .kpi-consumption strong {
+  color: var(--gold);
+}
+
+.center-kpis .kpi-consumption-day small::before {
+  content: "日";
+  clip-path: none;
+  border-radius: 50%;
+  font-size: 8px;
+  background: var(--gold);
+}
+
+.supply-combined {
+  grid-template-rows: 108px 1fr;
+  gap: 10px;
+}
+
+.supply-overall {
+  grid-template-columns: 150px 1fr;
+  gap: 9px;
+}
+
+.supply-total,
+.supply-share {
+  padding: 12px 13px;
+}
+
+.supply-total span,
+.supply-share-head {
+  font-size: 10px;
+}
+
+.supply-total strong {
+  margin-top: 9px;
+  font-size: 24px;
+}
+
+.supply-total em {
+  font-size: 10px;
+}
+
+.supply-total small {
+  left: 13px;
+  bottom: 9px;
+  font-size: 9px;
+}
+
+.supply-segments {
+  height: 10px;
+  margin: 11px 0;
+}
+
+.supply-share-legend span,
+.supply-share-legend b {
+  font-size: 9px;
+}
+
+.supply-tabs {
+  height: 32px;
+}
+
+.supply-tabs button {
+  font-size: 10px;
+}
+
+.supply-detail-body {
+  height: calc(100% - 32px);
+  grid-template-rows: 25px 58px 1fr;
+  gap: 7px;
+  padding: 8px 10px;
+}
+
+.supply-detail-head strong {
+  font-size: 11px;
+}
+
+.supply-detail-head span {
+  font-size: 9px;
+}
+
+.supply-detail-metrics {
+  gap: 8px;
+}
+
+.supply-detail-metrics article {
+  padding: 8px 9px;
+}
+
+.supply-detail-metrics span,
+.supply-detail-metrics em {
+  font-size: 9px;
+}
+
+.supply-detail-metrics strong {
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+.supply-grade-detail {
+  grid-template-columns: 145px 1fr;
+  gap: 8px;
+}
+
+.supply-grade-total {
+  padding: 8px 10px;
+}
+
+.supply-grade-total span,
+.supply-grade-total em,
+.supply-grade-list i,
+.supply-other-note {
+  font-size: 9px;
+}
+
+.supply-grade-total strong {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+.supply-grade-total small {
+  right: 9px;
+  bottom: 8px;
+  font-size: 9px;
+}
+
+.supply-grade-list b {
+  font-size: 11px;
+}
+
+.trend-head {
+  height: 42px;
+  padding: 0 14px;
+}
+
+.trend-head > span,
+.trend-legend,
+.trend-legend b {
+  font-size: 10px;
+}
+
+.trend-scroll {
+  height: 145px;
+  padding: 0 12px;
+}
+
+.trend-canvas {
+  height: 140px;
+}
+
+#trendChart {
+  height: 118px;
+}
+
+.trend-axis {
+  height: 24px;
+  font-size: 10px;
+}
+
+.trend-metrics {
+  height: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  padding: 0 12px 7px;
+}
+
+.trend-metrics article {
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid rgba(40, 239, 255, .16);
+  border-left: 2px solid var(--cyan);
+  background: rgba(22, 120, 255, .08);
+}
+
+.trend-metrics article:nth-child(2) {
+  border-left-color: var(--aqua);
+}
+
+.trend-metrics article:nth-child(3) {
+  border-left-color: var(--gold);
+}
+
+.trend-metrics span,
+.trend-metrics small {
+  display: block;
+  color: #84b2bd;
+  font-size: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trend-metrics strong {
+  display: inline-block;
+  margin-top: 2px;
+  color: var(--aqua);
+  font: 700 14px "Consolas", monospace;
+}
+
+.trend-metrics article:nth-child(3) strong {
+  color: var(--gold);
+}
+
+.trend-metrics em {
+  margin-left: 2px;
+  color: #a8d2db;
+  font: 8px "Microsoft YaHei UI";
+}
+
+.trend-metrics small {
+  display: inline-block;
+  margin-left: 5px;
+  color: #70c5d3;
+  font-size: 7px;
+}
+
+.price-list,
+.preference-list {
+  gap: 9px;
+}
+
+.price-row {
+  grid-template-columns: 96px 1fr 42px;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.price-row i {
+  height: 9px;
+}
+
+.price-row strong {
+  font-size: 11px;
+}
+
+.consumption-note {
+  padding: 9px 11px;
+  font-size: 9px;
+}
+
+.pref-row {
+  grid-template-columns: 76px 1fr;
+  font-size: 11px;
+}
+
+.pref-legend {
+  font-size: 9px;
+}
+
+.map-stage {
+  height: calc(100% - 98px);
+}
+
+.map-panel footer {
+  height: 50px;
+  padding: 0 14px;
+  font-size: 10px;
+}
+
+.map-panel header span {
+  font-size: 10px;
+}
+
+.map-controls button {
+  height: 27px;
+  font-size: 10px;
+}
+
+.city-label {
+  font-size: 12px;
+}
+
+.county-label {
+  font-size: 10px;
+}
+
+.economy-card {
+  top: 18px;
+  width: 192px;
+  padding: 13px 15px;
+}
+
+.economy-card span {
+  font-size: 10px;
+}
+
+.economy-card strong {
+  margin: 6px 0;
+  font-size: 23px;
+}
+
+.economy-card em {
+  font-size: 10px;
+}
+
+.economy-card small {
+  font-size: 9px;
+}
+
+.heat-legend {
+  width: 300px;
+  height: 54px;
+  grid-template-columns: 72px 1fr 20px 20px;
+  padding: 10px 13px;
+  font-size: 10px;
+}
+
+.rank-chip {
+  padding: 5px 8px;
+  font-size: 10px;
+}
+
+.rank-chip b {
+  font-size: 9px;
+}
+
+.guest-header {
+  gap: 8px;
+}
+
+.guest-tab-groups {
+  gap: 6px;
+}
+
+.guest-tab-groups .guest-tabs {
+  gap: 0;
+}
+
+.guest-tab-groups .guest-tabs button {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 10px;
+}
+
+.guest-layout {
+  grid-template-columns: 175px 1fr;
+  gap: 14px;
+}
+
+.profile-donut {
+  width: 150px;
+  height: 150px;
+}
+
+.profile-donut:after,
+.profile-donut-center {
+  inset: 31px;
+}
+
+.profile-donut-center strong {
+  font-size: 24px;
+}
+
+.profile-donut-center span,
+.profile-row span,
+.profile-row strong {
+  font-size: 11px;
+}
+
+.profile-legend {
+  gap: 12px;
+}
+
+.profile-row {
+  grid-template-columns: 10px 1fr auto;
+  gap: 8px;
+}
+
+.profile-row i {
+  width: 10px;
+  height: 10px;
+}
+
+.guest-drill-hint {
+  font-size: 9px;
+}
+
+.demographic-layout {
+  grid-template-columns: 175px 1fr;
+  gap: 13px;
+}
+
+.demographic-chart {
+  width: 158px;
+  height: 158px;
+}
+
+.demographic-legend {
+  gap: 7px;
+}
+
+.demographic-legend div,
+.demographic-legend b,
+.gender-pie span {
+  font-size: 10px;
+}
+
+.source-ranking-title strong {
+  font-size: 11px;
+}
+
+.source-ranking-title span {
+  font-size: 9px;
+}
+
+.source-rank-button {
+  height: 26px;
+  grid-template-columns: 68px 1fr 42px 12px;
+  gap: 8px;
+  padding: 0 7px;
+  font-size: 10px;
+}
+
+.source-rank-button b {
+  font-size: 10px;
+}
+
+.stay-ranking {
+  gap: 4px;
+}
+
+.stay-ranking button {
+  grid-template-columns: 24px 82px 1fr 56px;
+  gap: 8px;
+  padding: 0 7px;
+}
+
+.stay-ranking button > b,
+.stay-ranking button > span,
+.stay-ranking button > strong {
+  font-size: 10px;
+}
+
+.stay-ranking button > i {
+  height: 6px;
+}
+
+.route-panel #routes {
+  height: calc(100% - 48px);
+  padding: 8px 10px;
+}
+
+.right-stack .province-routes {
+  gap: 4px;
+}
+
+.right-stack .province-route {
+  padding: 4px 8px;
+}
+
+.province-route > b,
+.province-route span,
+.province-route strong {
+  font-size: 10px;
+}
+
+.right-stack .route-rank {
+  height: 20px;
+  grid-template-columns: 18px 78px 1fr 56px;
+  gap: 5px;
+  font-size: 9px;
+}
+
+.route-rank > b,
+.route-rank strong,
+.route-direction-title {
+  font-size: 9px;
+}
+
+.gap-summary {
+  height: 58px;
+  margin-bottom: 9px;
+}
+
+.gap-summary span,
+.gap-summary em {
+  font-size: 9px;
+}
+
+.gap-summary strong {
+  font-size: 17px;
+}
+
+.opportunity-panel .gap-grid {
+  height: calc(100% - 67px);
+}
+
+.gap-section h3 {
+  font-size: 11px;
+}
+
+.gap-section p {
+  font-size: 9px;
+}
+
+.opportunity-panel .gap-row {
+  height: 22px;
+}
+
+.gap-row {
+  grid-template-columns: 18px 68px 1fr 40px;
+  gap: 6px;
+  font-size: 9px;
+}
+
+.gap-row b,
+.gap-row strong {
+  font-size: 9px;
+}
+
+.screen-footer {
+  height: 53px;
+  font-size: 11px;
+}
+

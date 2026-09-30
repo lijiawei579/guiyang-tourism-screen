@@ -1,0 +1,29 @@
+#screen .comparison-bars{display:flex;align-items:end;justify-content:space-around;gap:18px;height:145px;padding:8px 14px 0;border-bottom:1px solid #35729555;margin-bottom:16px}
+#screen .comparison-column{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:7px;font-size:12px;color:#a8cedf}
+#screen .comparison-column i{width:52%;min-height:3px;background:linear-gradient(0deg,#1771bb77,var(--tone));border-top:2px solid var(--tone);box-shadow:0 0 18px #1ba9bb22}
+#screen .comparison-column b{color:var(--tone);font:18px Consolas}
+#screen .coverage-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+#screen .coverage-node{display:flex;align-items:center;gap:12px;padding:12px 6px;border-bottom:1px solid #2c678155}
+#screen .coverage-node>i{display:grid;place-items:center;width:48px;height:48px;border:1px solid #43d2d877;border-radius:50%;font-size:22px;font-style:normal;color:#65e4e5;background:radial-gradient(#17659288,#062a4566)}
+#screen .coverage-node b{display:block;font:24px Consolas;color:#42f4c9}
+#screen .coverage-node small{display:block;color:#91b9cc;font-size:12px;margin-top:5px}
+#screen .ticket-visual{display:grid;gap:12px;margin:10px 0 14px}
+#screen .ticket-visual article{display:grid;grid-template-columns:70px 1fr 65px;gap:10px;align-items:center;font-size:12px}
+#screen .ticket-visual i{height:18px;display:block;background:linear-gradient(90deg,#1975b7,var(--tone));clip-path:polygon(0 0,95% 0,100% 50%,95% 100%,0 100%)}
+#screen .ticket-visual b{color:#bfeefa;text-align:right;font:16px Consolas}
+body.culture #screen .bottom-grid{grid-template-columns:1fr 1fr}
+body.tourism #screen .layout>.column:last-child{grid-template-rows:1fr 1fr 1.05fr}
+#screen .monitor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+#screen .monitor-tile{position:relative;padding:0;overflow:hidden;border:1px solid #3481a3;background:#08263e;min-width:0;text-align:left}
+.monitor-scene{display:block;width:100%;height:100%;background:#102f45}
+#screen .monitor-tile .monitor-scene{height:94px}
+.monitor-caption{display:flex;justify-content:space-between;gap:6px;padding:7px;color:#bfeefa;font-size:11px;background:#061c32}
+.monitor-badge{position:absolute;left:5px;top:5px;padding:3px 5px;font:9px Consolas;color:#ffe49a;background:#06203ddd}
+#screen .monitor-tile:hover{border-color:#67e8f7;box-shadow:0 0 12px #42d7ed33}
+.monitor-preview{position:relative;max-width:850px;margin:18px auto;border:1px solid #337fa377}
+.monitor-preview .monitor-scene{height:390px}
+.monitor-switch{display:flex;gap:10px;margin-top:14px}
+#screen .graphics-note{font-size:10px;color:#88a9bb;line-height:1.6}
+body.tourism #screen .comparison-bars{height:100px;margin-bottom:8px}
+body.tourism #screen .comparison-column{gap:4px;font-size:11px}
+body.tourism #screen .comparison-column i{max-height:48px}

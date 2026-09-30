@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>贵阳市住宿业综合监测大屏 · 住宿专题</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="readability.css">
+  <link rel="stylesheet" href="gt-design.css">
+</head>
+<body>
+  <main class="screen" id="screen">
+    <header class="topbar">
+      <div class="system-mark"><span>贵阳数智文旅平台</span><em>GUIYANG · ACCOMMODATION</em></div>
+      <div class="title"><small>供给 · 接待 · 客源 · 流动 · 消费</small><h1>贵阳市住宿业综合监测大屏</h1></div>
+      <div class="clock"><span id="date"></span><strong id="time"></strong></div>
+    </header>
+
+    <section class="commandbar">
+      <nav><a href="../index.html#overview" style="color:#42f5d1;text-decoration:none">← 综合大屏</a><i>/</i><span>住宿专题</span><i>/</i><strong id="currentRegionLabel">全省</strong><i>/</i><b>综合态势</b></nav>
+      <form id="filterForm">
+        <label><span>统计日期</span><input id="startDate" type="date" value="2026-07-10" max="2026-08-20"></label>
+        <i>至</i>
+        <label><input id="endDate" type="date" value="2026-08-20" max="2026-08-20"></label>
+        <label><span>区域</span><select id="regionFilter"><option value="贵阳市">贵阳市 · 全市</option><option value="南明区">南明区</option><option value="云岩区">云岩区</option><option value="花溪区">花溪区</option><option value="乌当区">乌当区</option><option value="白云区">白云区</option><option value="观山湖区">观山湖区</option><option value="清镇市">清镇市</option><option value="修文县">修文县</option><option value="息烽县">息烽县</option><option value="开阳县">开阳县</option></select></label>
+        <label><span>住宿类型</span><select id="typeFilter"><option value="全部类型">全部类型</option><option value="酒店">酒店</option><option value="民宿">民宿</option><option value="客栈及其他">客栈及其他</option></select></label>
+        <button type="submit">应用筛选</button>
+      </form>
+    </section>
+
+    <section class="layout">
+      <aside class="left-stack">
+        <article class="panel supply-panel">
+          <header><span>01</span><h2>住宿供给资源</h2><small>总览 · 分类经营</small></header>
+          <div class="panel-body" id="supplyContent"></div>
+        </article>
+
+        <article class="panel trend-panel">
+          <header><span>02</span><h2 id="trendTitle">日接待人次趋势</h2><div class="tabs" data-tab-group="period"><button class="active" data-tab="day">日</button><button data-tab="month">月</button><button data-tab="year">年</button></div></header>
+          <div class="trend-head"><span id="trendCompare"></span><div class="trend-legend"><span class="reception">接待人次</span><span class="occupancy">入住率</span></div></div>
+          <div class="trend-metrics" id="trendMetrics"></div>
+          <div class="trend-scroll" id="trendScroll"><div class="trend-canvas" id="trendCanvas"><svg id="trendChart" viewBox="0 0 520 122" role="img" aria-label="接待人次与入住率趋势"></svg><div class="trend-axis" id="trendAxis"></div></div></div>
+        </article>
+
+        <article class="panel structure-panel">
+          <header><span>03</span><h2>价格与住宿时段</h2><div class="tabs" data-tab-group="operation"><button class="active" data-tab="price">价格</button><button data-tab="preference">时段</button></div></header>
+          <div class="panel-body" id="operationContent"></div>
+        </article>
+      </aside>
+
+      <section class="center-stack">
+        <section class="kpis center-kpis" id="kpis"></section>
+        <article class="map-panel">
+          <header><div><span>04 / SPATIAL MONITORING</span><h2 id="mapTitle">全省住宿热度空间分布</h2></div><div class="map-controls"><button type="button" id="mapBack" disabled>返回上一级</button><small id="mapHint">点击市州下钻 · 点击空白返回</small></div></header>
+          <div class="map-stage">
+            <svg id="map" viewBox="0 0 820 430" role="img" aria-label="贵州住宿热度地图"><g id="geoRegions"></g><g id="mapLabels"></g></svg>
+            <div class="heat-legend"><span>住宿热度</span><i></i><em>低</em><em>高</em></div>
+          </div>
+          <footer><span id="mapInsight">黔东南、贵阳、安顺住宿热度较高</span><div id="mapRanking"></div></footer>
+        </article>
+      </section>
+
+      <aside class="right-stack">
+        <article class="panel guest-panel">
+          <header class="guest-header"><span>06</span><h2>住客画像与客源</h2><div class="guest-tab-groups"><div class="tabs guest-tabs" data-tab-group="guestView"><button class="active" data-tab="source">客源结构</button><button data-tab="demographic">性别年龄</button></div></div></header>
+          <div class="panel-body" id="guestContent"></div>
+        </article>
+
+        <article class="panel opportunity-panel">
+          <header><span>07</span><h2 id="opportunityTitle">各市州平均住宿时长</h2><small id="opportunityScope">全省住宿游客</small></header>
+          <div class="panel-body" id="opportunityContent"></div>
+        </article>
+
+        <article class="panel route-panel">
+          <header><span>08</span><h2 id="routeTitle">热门跨市住宿路径</h2><small id="routeScope">全省跨市住宿客流 TOP 9</small><button type="button" id="routeDetail">查看详情 →</button></header>
+          <div id="routes"></div>
+        </article>
+      </aside>
+    </section>
+
+    <footer class="screen-footer"><span>交互演示 · 所有住宿经营指标均为模拟数据 · 地图为真实行政区界</span><span id="scopeSummary">全省 · 全部类型 · 2026-07-10 至 2026-08-20</span></footer>
+  </main>
+
+  <dialog id="routeDialog">
+    <section class="detail-dialog"><button id="closeRouteDialog" class="close" type="button">×</button><span class="eyebrow">VISITOR ROUTE DETAIL</span><h2 id="routeDialogTitle">游客住宿路径详情</h2><p id="routeDialogScope"></p><div id="routeDialogBody"></div></section>
+  </dialog>
+
+  <script src="geography.js"></script>
+</body>
+</html>

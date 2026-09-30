@@ -1,0 +1,76 @@
+html,body{width:100%;height:100%;overflow:hidden;background:#061525}
+#screen{width:100%;height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#screen .shell{width:1920px;min-width:1920px;max-width:1920px;height:1080px;min-height:1080px;flex:none;padding:16px 24px;margin:0;zoom:1;transform:scale(var(--topic-scale,1));transform-origin:center;display:grid;grid-template-rows:68px 38px 92px minmax(0,1fr) 134px 32px;gap:10px;background:linear-gradient(#071b2ee8,#06192de8),url('legacy-assets/map-bg.43c20f6c.png') center/cover}
+#screen .masthead{display:flex;flex-wrap:nowrap;gap:12px;padding:0 0 10px;min-height:0}
+#screen h1{font-size:28px;font-weight:600;margin-top:5px}
+#screen .identity small{font-size:10px}
+#screen .dateline{display:block;font-size:12px}
+#screen .navigation{font-size:14px}
+#screen .navigation a{padding:8px 16px}
+#screen .toolbar{margin:0;flex-wrap:nowrap;gap:12px;font-size:12px;min-height:0}
+#screen .toolbar .intro{width:auto;margin-right:auto}
+#screen .toolbar select{font-size:12px}
+#screen .kpis{grid-template-columns:repeat(6,minmax(0,1fr));margin:0;gap:12px}
+#screen .kpi{padding:9px 15px}
+#screen .kpi span{font-size:13px}
+#screen .kpi strong{font-size:30px;margin:5px 0}
+#screen .kpi strong small{font-size:11px}
+#screen .kpi em{font-size:10px}
+#screen .layout{height:100%;min-height:0;display:grid;grid-template-columns:1fr 1.45fr 1fr;gap:12px;align-items:stretch}
+#screen .column{height:100%;min-height:0;display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;margin:0}
+#screen .layout>.column:nth-child(2){grid-column:auto;grid-row:auto;grid-template-rows:1.3fr 1fr}
+body.tourism #screen .layout>.column:first-child,body.tourism #screen .layout>.column:last-child{grid-template-rows:1.1fr 1.1fr .8fr}
+#screen .panel{padding:12px 14px;margin:0;min-height:0;overflow:auto;scrollbar-width:thin;scrollbar-color:#30586c transparent;background:linear-gradient(125deg,#12354bc9,#0a243bde)}
+#screen .panel h2{font-size:16px;margin-bottom:10px;min-height:20px}
+#screen .panel h2 small{font-size:10px}
+#screen .panel .module-link{font-size:11px}
+#screen .panel p{font-size:11px;line-height:1.5;margin:6px 0}
+#screen .bar-row{font-size:13px;grid-template-columns:110px 1fr 60px;margin:10px 0}
+#screen .bar-row b{font-size:16px}
+#screen .bar-track{height:8px}
+#screen .chart{height:100px}
+body.tourism #screen .chart{height:60px}
+#screen .mini-stats{gap:8px}
+#screen .mini-stats div{padding:8px 7px}
+#screen .mini-stats small{font-size:11px}
+#screen .mini-stats b{font-size:22px;margin-top:5px}
+body.tourism #screen .mini-stats div{padding:5px 6px}
+body.tourism #screen .mini-stats b{font-size:21px}
+#screen .item{font-size:13px;padding:8px 0}
+#screen .item b{font-size:18px}
+#screen .item small{display:block;font-size:10px;margin-top:3px}
+body.tourism #screen .item{padding:5px 0}
+body.tourism #screen .item small{display:none}
+#screen .ring{width:130px;height:130px}
+#screen .ring:after{width:96px;height:96px;font-size:12px}
+#screen .ring-layout{margin-bottom:9px}
+#screen .regional-panel{padding:12px 14px}
+#screen .regional-head{font-size:11px;padding:7px 6px}
+#screen .regional-rows{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#screen .regional-row{grid-template-columns:1.5fr .6fr .6fr;gap:6px;min-height:29px;padding:5px 6px}
+#screen .regional-row>span{font-size:11px;padding-bottom:3px}
+#screen .regional-row b{font-size:15px}
+#screen .regional-summary{margin-top:6px;font-size:11px}
+#screen .map-tabs button{font-size:11px;padding:4px 8px}
+#screen .map-note{margin-top:5px;font-size:10px!important;line-height:1.4}
+#screen .bottom-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;min-height:0}
+#screen .bottom-grid .panel{min-height:0;padding:10px 13px}
+#screen .bottom-grid .panel h2{font-size:14px;margin-bottom:6px}
+#screen .bottom-grid .item{padding:5px 0;font-size:12px}
+#screen .bottom-grid .panel p{font-size:10px;margin:4px 0}
+#screen .timeline{margin:7px 0;gap:8px}
+#screen .timeline div{padding-top:5px;font-size:11px}
+#screen .timeline b{font-size:23px;margin:4px 0}
+#screen .video-empty{height:70px;font-size:13px}
+#screen .footer{display:flex;align-items:center;font-size:10px;margin:0;line-height:1.4;min-height:0}
+#screen .source-button{font-size:11px}
+#metric-dialog{width:min(1200px,94vw);padding:20px 26px;max-height:90dvh;background:linear-gradient(135deg,#12364c,#0a2036);border:1px solid #4c879b}
+#metric-dialog .dialog-head{position:sticky;top:-20px;background:#103049;z-index:2;padding:10px 0}
+#metric-dialog .metric-record{font-size:14px;padding:16px 20px}
+#metric-dialog .metric-record h3{font-size:17px}
+#screen .layout>.column:nth-child(2){grid-template-rows:1.5fr 1fr}
+body.tourism #screen .layout>.column:first-child{grid-template-rows:212px 260px minmax(0,1fr)}
+body.tourism #screen .layout>.column:first-child>.panel:nth-child(2) .item{padding:3px 0}
+body.tourism #screen .bar-row{margin:6px 0}
+body.tourism #screen .panel p{font-size:10px}
+body.tourism #screen .layout>.column:first-child>.panel:last-child{padding:9px 12px}

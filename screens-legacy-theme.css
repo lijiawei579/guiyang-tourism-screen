@@ -1,0 +1,67 @@
+:root, body.tourism {
+  --accent: #67e8f7;
+  --muted: #88a9bb;
+  --line: #2c678166;
+  color: #cce9fa;
+  background: #020e22;
+}
+html, body { background: #020e22; }
+#screen .shell {
+  padding: 0 28px 9px;
+  grid-template-rows: 88px 38px 92px minmax(0,1fr) 134px 32px;
+  background: linear-gradient(#031a3033,#04162c33), url('legacy-assets/map-bg.43c20f6c.png') center / 100% 100% no-repeat;
+  border: 1px solid #246984;
+}
+#screen .masthead {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  padding: 0 12px;
+  border: 0;
+  background: url('legacy-assets/top-bg.573a6e77.png') center top / 100% 100% no-repeat;
+}
+#screen .identity { grid-column: 2; text-align: center; align-self: start; padding-top: 12px; }
+#screen .identity small { font-size: 9px; letter-spacing: 3px; color: #82bcd2; }
+#screen h1 { font-size: 32px; font-weight: 700; font-style: italic; letter-spacing: 6px; margin: 8px 0; white-space: nowrap; text-shadow: 0 0 18px #48e9fa; }
+#screen .dateline { position: absolute; left: 12px; top: 18px; text-align: left; color: #82a9bd; font-size: 11px; }
+#screen .navigation { position: absolute; right: 12px; bottom: 7px; gap: 8px; font-size: 13px; }
+#screen .navigation a { padding: 7px 12px; color: #b4d7e7; }
+#screen .navigation a.active { color: #5cf6fa; border-bottom: 2px solid #4ddbed; background: linear-gradient(0deg,#1596c055,transparent); }
+#screen .toolbar { padding: 4px 10px; background: #041c3544; border: 1px solid #235b7733; }
+#screen button, #screen select, #metric-dialog button { border-radius: 0; border-color: #337fa377; background-color: #0d2d4d; }
+#screen button:hover, #screen a:hover, #metric-dialog button:hover { color: #65f1f1; border-color: #4ddbed; }
+#screen button:focus-visible, #screen a:focus-visible, #screen select:focus-visible { outline: 2px solid #65f1f1; outline-offset: 2px; }
+#screen button.active, #screen .map-tabs button.active { background: url('legacy-assets/tab-a-active.b1569c3d.png') center / 100% 100% no-repeat; border-color: #42d7ed; color: #65f1f1; }
+#screen .panel { position: relative; border: 1px solid #2c678133; border-radius: 0; background: linear-gradient(120deg,#06274ba8,#0c2c518a); box-shadow: none; scrollbar-color: #235e7f transparent; }
+#screen .panel::before { content: ''; position: absolute; left: 0; top: 0; width: 70px; height: 3px; background: linear-gradient(90deg,#55d7f2,transparent); }
+#screen .panel h2 { color: #67e8f7; font-weight: 500; letter-spacing: 1px; border: 0; border-bottom: 1px solid #3b7b9844; background: linear-gradient(100deg,#136c9055,#14255888); margin: -12px -14px 10px; padding: 9px 14px; min-height: 37px; }
+#screen .bottom-grid .panel h2 { margin: -10px -13px 6px; padding: 7px 13px; min-height: 31px; }
+body.tourism #screen .layout>.column:first-child>.panel:last-child h2 { margin: -9px -12px 8px; }
+#screen .panel h2 small { color: #88a9bb; }
+#screen .kpi, #screen .mini-stats div { border-radius: 0; border: 1px solid #3883ae44; background: url('legacy-assets/inner-card-light.473e088a.png') center / 100% 100% no-repeat, #12385855; }
+#screen .kpi strong, #screen .mini-stats b { color: #42f4c9; }
+#screen .kpi span { color: #64b7db; }
+#screen .kpi em, #screen .kpi strong small { color: #9bbed3; }
+#screen .bar-track { border-radius: 0; background: #18426080; }
+#screen .bar-track i { border-radius: 0; background: linear-gradient(90deg,#2485a9,#73e9d5); }
+#screen .bar-row b, #screen .item b, #screen .timeline b { color: #69f1d9; }
+#screen .chart text { fill: #88a9bb; }
+#screen .regional-head { background: #136c9033; color: #81c8e4; }
+#screen .regional-row { background: transparent; border: 0; border-bottom: 1px solid #26749833; }
+#screen .regional-row:nth-child(even) { background: #15416c35; }
+#screen .regional-row:hover, #screen .regional-row.selected { background: #1a6d9155; box-shadow: inset 3px 0 #5cf6fa; }
+#screen .regional-row b { color: #bfeefa; }
+#screen .regional-row b:last-child { color: #69f1d9; }
+#screen .item { border-color: #26749833; }
+#screen .tag { border-color: #337fa377; border-radius: 0; background: #0d355b77; color: #67e8f7; }
+#screen .ring { background: conic-gradient(#45dcc0 0 11.765%,#598cff 11.765% 52.941%,#efc554 52.941%); }
+#screen .ring::after { background: #092344; color: #aad0e3; }
+#screen .timeline div { border-color: #43d2d8; }
+#screen .video-empty { border-radius: 0; border-color: #38658166; background: repeating-linear-gradient(0deg,#0a274c55 0 3px,#13375b55 3px 4px); color: #9bbed3; }
+#screen .footer { color: #80a6bb; }
+#metric-dialog { border-radius: 0; color: #cce9fa; background: linear-gradient(#061b35ec,#082640ed),url('legacy-assets/map-bg.43c20f6c.png') center / cover; border-color: #3c9dba; }
+#metric-dialog .dialog-head { background: #082640; border-bottom: 1px solid #3b7b9844; }
+#metric-dialog .dialog-head h2 { color: #67e8f7; }
+#metric-dialog .metric-record { border-color: #2c678166; border-radius: 0; background: #0b35584d; }
+#metric-dialog .metric-record dt { color: #88a9bb; }
+#metric-dialog::backdrop { background: #020e22cc; }

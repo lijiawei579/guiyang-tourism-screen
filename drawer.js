@@ -1,18 +1,4 @@
 const industryDrawer = document.createElement('dialog');
-for (const href of ['vendor/leaflet.css', 'boundary.css', 'map-presentation.css']) {
-  const stylesheet = document.createElement('link');
-  stylesheet.rel = 'stylesheet';
-  stylesheet.href = href;
-  document.head.append(stylesheet);
-}
-const leafletScript = document.createElement('script');
-leafletScript.src = 'vendor/leaflet.js';
-leafletScript.onload = () => {
-  const mapsScript = document.createElement('script');
-  mapsScript.src = 'maps.js';
-  document.body.append(mapsScript);
-};
-document.body.append(leafletScript);
 industryDrawer.id = 'industry-drawer';
 industryDrawer.setAttribute('aria-label', '六业专题');
 industryDrawer.innerHTML = '<div class="drawer-head"><div><small>TOURISM ECOSYSTEM</small><h2>六业专题</h2></div><button aria-label="关闭专题抽屉">×</button></div><p>探索文旅全链条，切换专题数据视图</p>';

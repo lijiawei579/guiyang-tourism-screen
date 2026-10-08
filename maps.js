@@ -9,7 +9,8 @@ const boundaryMetrics = {
   shop:['购物消费','亿元',35.96],
   entertain:['活动数量','场',32]
 };
-const boundaryCache = {};
+const boundaryCache = {...globalThis.GUIYANG_MAP_DATA};
+const boundaryRequests = {};
 let boundaryMap;
 let boundaryVersion = 0;
 let selectedCounty = null;
@@ -21,12 +22,17 @@ function boundaryName(name) {
   return name.replace('黔东南苗族侗族自治州','黔东南州').replace('黔南布依族苗族自治州','黔南州').replace('黔西南布依族苗族自治州','黔西南州');
 }
 async function boundaryData(filename) {
-  if (!boundaryCache[filename]) {
-    const response = await fetch(filename);
-    if (!response.ok) throw new Error('地图文件读取失败');
-    boundaryCache[filename] = await response.json();
+  if (boundaryCache[filename]) return boundaryCache[filename];
+  if (!boundaryRequests[filename]) {
+    boundaryRequests[filename] = fetch(filename).then(response => {
+      if (!response.ok) throw new Error('地图文件读取失败');
+      return response.json();
+    }).then(data => {
+      boundaryCache[filename] = data;
+      return data;
+    }).finally(() => { delete boundaryRequests[filename]; });
   }
-  return boundaryCache[filename];
+  return boundaryRequests[filename];
 }
 function boundaryValue(index) {
   const metric = boundaryMetrics[state.page];

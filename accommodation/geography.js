@@ -8,6 +8,11 @@ Promise.all([
   window.FUNCTIONAL_BOUNDARIES = functional;
   const script = document.createElement('script');
   script.src = 'app.js';
+  script.onload = () => {
+    const enhancements = document.createElement('script');
+    enhancements.src = 'indicator-accommodation.js';
+    document.body.append(enhancements);
+  };
   document.body.append(script);
 }).catch(error => {
   document.querySelector('#mapHint').textContent = error.message + '，请刷新重试';

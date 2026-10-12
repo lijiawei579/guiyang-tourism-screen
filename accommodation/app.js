@@ -188,7 +188,10 @@ function renderOperation() {
 }
 
 const countyNames = city => window.GUIZHOU_COUNTY_GEOJSON?.[cityAdcodes[city]]?.features?.map(feature => feature.properties.name) || countyCatalog[city] || [];
-const countyValue = (city, index) => 55 + (Math.max(0,index) * 7) % 35;
+const countyValue = (city, index) => {
+  if(globalThis.IndicatorData){const scope={type:activeFilters.type==='全部类型'?'':activeFilters.type,start:activeFilters.startDate,end:activeFilters.endDate},rows=IndicatorData.query('hotelGuests',{...scope,group:'area'}),maximum=Math.max(...rows.map(row=>row.value),1),name=countyNames(city)[index];return (rows.find(row=>row.bucket===name)?.value||0)/maximum*100;}
+  return 55 + (Math.max(0,index) * 7) % 35;
+};
 const countyRanking = city => countyNames(city).map((name, index) => [name, countyValue(city, index)]).sort((a, b) => b[1] - a[1]);
 const cityFromSource = { 贵阳: '贵阳市', 遵义: '遵义市', 毕节: '毕节市', 黔东南: '黔东南州', 安顺: '安顺市', 黔南: '黔南州' };
 const outsideCityMap = { 广东: '贵阳市', 四川: '遵义市', 重庆: '黔东南州', 湖南: '铜仁市', 浙江: '贵阳市', 广西: '黔南州', 江苏: '安顺市', 湖北: '毕节市' };
@@ -338,7 +341,7 @@ function openRouteOverview(){ $('#routeDialogTitle').textContent='游客住宿�
 function renderAll(){renderKpis();renderSupply();drawTrend();renderOperation();renderGuest();renderRoutes();renderOpportunity();updateMap();}
 function applyFilters(){
   const startDate = $('#startDate').value, endDate = $('#endDate').value;
-  if(!startDate || !endDate || startDate > endDate){ $('#endDate').setCustomValidity('请选择有效日期，结束日期不能早于开始日期'); $('#endDate').reportValidity(); return; }
+  if(!startDate || !endDate || startDate > endDate || (globalThis.IndicatorData&&(startDate<'2026-01-01'||endDate>IndicatorData.asOf))){ $('#endDate').setCustomValidity('请选择有效日期，范围为2026-01-01至2026-09-30，结束日期不能早于开始日期'); $('#endDate').reportValidity(); return; }
   $('#endDate').setCustomValidity('');
   const selectedRegion = $('#regionFilter').value;
   activeFilters = {region:'贵阳市',type:$('#typeFilter').value,startDate,endDate};
@@ -358,7 +361,7 @@ $('.map-stage').addEventListener('click',event=>{if(!event.target.closest('.coun
 $('#mapBack').addEventListener('click',returnToGuiyang);
 $('#guestContent').addEventListener('click',event=>{const county=event.target.closest('[data-source-county]');if(county && districtWeights[county.dataset.sourceCounty]){mapDrill.level='county';mapDrill.county=county.dataset.sourceCounty;renderMap();renderAll();}});
 
-$('#routeDetail').addEventListener('click',()=>{activeFilters.region==='全省'?openRouteOverview():openRouteCity(activeFilters.region);$('#routeDialog').showModal();});
+$('#routeDetail').addEventListener('click',()=>{if(globalThis.openIndicatorDrill){openIndicatorDrill('hotelGuests',{area:mapDrill.county||'',type:activeFilters.type==='全部类型'?'':activeFilters.type,start:activeFilters.startDate,end:activeFilters.endDate});return;}activeFilters.region==='全省'?openRouteOverview():openRouteCity(activeFilters.region);$('#routeDialog').showModal();});
 $('#routeDialogBody').addEventListener('click',event=>{const city=event.target.closest('[data-route-city]');const back=event.target.closest('[data-route-back]');if(city)openRouteCity(city.dataset.routeCity);if(back)openRouteOverview();});
 $('#closeRouteDialog').addEventListener('click',()=>$('#routeDialog').close());
 $('#routeDialog').addEventListener('click',event=>{if(event.target===$('#routeDialog'))$('#routeDialog').close();});

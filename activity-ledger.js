@@ -1,0 +1,3 @@
+(() => {const regions=['南明区','云岩区','花溪区','乌当区','白云区','观山湖区','开阳县','息烽县','修文县','清镇市','贵安新区','双龙航空港经济区'],types=['文化演出','群众文化','旅游推广','体育休闲'];
+globalThis.ActivityLedger=Array.from({length:156},(_,i)=>{const month=i%10+1,day=i%22+1;return{id:'ACT-'+String(i+1).padStart(3,'0'),name:['城市周末音乐会','非遗体验进社区','乡村文旅推介','山地运动体验'][i%4]+' · 第'+(Math.floor(i/4)+1)+'期',area:regions[i%12],type:types[i%4],date:`2026-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,enroll:80+i%9*25,check:i%5===0?0:55+i%8*17,quality:i%5===0,venue:i%5,status:month===10&&day>=22?'未开展':'已开展',organizer:regions[i%12]+'文旅活动组织单位'};});
+})();

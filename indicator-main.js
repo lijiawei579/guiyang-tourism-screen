@@ -14,10 +14,35 @@
     if(key==='comparison'&&state.tab.comparison)rows=model.parts('spend',context).map(row=>({...row,bucket:row.name}));
     if(key==='flow'&&state.tab.flow)rows=[['元旦','2026-01-01','2026-01-03'],['春节','2026-02-15','2026-02-23'],['清明','2026-04-04','2026-04-06'],['劳动','2026-05-01','2026-05-05'],['端午','2026-06-19','2026-06-21'],['中秋','2026-09-25','2026-09-27']].map(([bucket,start,end])=>({bucket,start,end,key:'visitors',value:model.total('visitors',{...context,start,end})}));
     const maximum=Math.max(...rows.map(row=>row.value||0),1);
-    const width=480,height=160,step=460/Math.max(rows.length,1);
+    const scrollDaily=group==='day'&&rows.length>10;
+    const width=scrollDaily?rows.length*48:480,height=160,step=scrollDaily?48:460/Math.max(rows.length,1);
     const unit=model.definitions[metricKey].unit;
-    return `<svg class="chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="${model.definitions[metricKey].name}组成"><path class="grid" d="M0 25H480M0 60H480M0 95H480M0 130H480"/>${rows.map((row,index)=>{const position=10+index*step,size=row.value/maximum*112;const bounds=row.start?`data-start="${row.start}" data-end="${row.end}"${row.hour!==null&&row.hour!==undefined?` data-hour="${row.hour}"`:''}`:'';return `<g data-indicator="${row.key}" data-period="${state.period}" data-area="${context.area}" ${bounds} role="button" tabindex="0" aria-label="${row.bucket} ${row.value}${unit}"><rect x="${position}" y="${130-size}" width="${Math.max(2,step*.65)}" height="${size}" fill="#42d7d0" opacity=".85"><title>${row.bucket}：${fmt(row.value)} ${unit}</title></rect>${rows.length<15||index%5===0?`<text x="${position}" y="150" font-size="9">${group==='hour'?row.bucket.slice(0,2):/^2026-/.test(row.bucket)?row.bucket.slice(5):row.bucket.slice(0,4)}</text>`:''}</g>`;}).join('')}</svg>`;
+    const graphic=`<svg class="chart" ${scrollDaily?`style="width:${rows.length/10*100}%;max-width:none;flex:none"`:''} viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="${model.definitions[metricKey].name}组成"><path class="grid" d="M0 25H${width}M0 60H${width}M0 95H${width}M0 130H${width}"/>${rows.map((row,index)=>{const position=10+index*step,size=row.value/maximum*112;const bounds=row.start?`data-start="${row.start}" data-end="${row.end}"${row.hour!==null&&row.hour!==undefined?` data-hour="${row.hour}"`:''}`:'';return `<g data-indicator="${row.key}" data-period="${state.period}" data-area="${context.area}" ${bounds} role="button" tabindex="0" aria-label="${row.bucket} ${row.value}${unit}"><rect x="${position}" y="${130-size}" width="${Math.max(2,step*.65)}" height="${size}" fill="#42d7d0" opacity=".85"><title>${row.bucket}：${fmt(row.value)} ${unit}</title></rect>${scrollDaily||rows.length<15||index%5===0?`<text x="${position}" y="150" font-size="9">${group==='hour'?row.bucket.slice(0,2):/^2026-/.test(row.bucket)?row.bucket.slice(5):row.bucket.slice(0,4)}</text>`:''}</g>`;}).join('')}</svg>`;
+    return scrollDaily?`<div class="daily-chart-scroll" tabindex="0" role="region" aria-label="逐日趋势，左右滚动查看更多日期">${graphic}</div>`:graphic;
   };
+  let dailyDrag=null;
+  let suppressDailyClick=false;
+  document.addEventListener('pointerdown',event=>{
+    const viewport=event.target.closest('.daily-chart-scroll');
+    if(!viewport||event.button!==0||event.pointerType==='touch')return;
+    suppressDailyClick=false;
+    dailyDrag={viewport,start:event.clientX,scroll:viewport.scrollLeft,moved:false};
+  });
+  document.addEventListener('pointermove',event=>{
+    if(!dailyDrag)return;
+    const distance=event.clientX-dailyDrag.start;
+    if(Math.abs(distance)>5)dailyDrag.moved=true;
+    if(dailyDrag.moved){dailyDrag.viewport.scrollLeft=dailyDrag.scroll-distance;event.preventDefault();}
+  });
+  document.addEventListener('pointerup',()=>{if(dailyDrag){suppressDailyClick=dailyDrag.moved;dailyDrag=null;}});
+  document.addEventListener('pointercancel',()=>{dailyDrag=null;suppressDailyClick=false;});
+  document.addEventListener('click',event=>{if(suppressDailyClick){suppressDailyClick=false;event.preventDefault();event.stopImmediatePropagation();}},true);
+  document.addEventListener('wheel',event=>{
+    const viewport=event.target.closest('.daily-chart-scroll');
+    if(!viewport||event.ctrlKey)return;
+    const delta=Math.abs(event.deltaX)>Math.abs(event.deltaY)?event.deltaX:event.deltaY;
+    if((delta>0&&viewport.scrollLeft<viewport.scrollWidth-viewport.clientWidth-1)||(delta<0&&viewport.scrollLeft>0)){viewport.scrollLeft+=delta;event.preventDefault();}
+  },{passive:false});
   const originalRender=render;
   render=function(){
     originalRender();
@@ -57,7 +82,7 @@
         const rows=model.query('scenicIn',{...context,start:holiday[0],end:holiday[1],group:'entity'}).sort((first,second)=>second.value-first.value).slice(0,3);
         panel.querySelectorAll('tbody tr').forEach((row,index)=>{row.children[1].textContent=rows[index]?.bucket||'待发生';row.children[2].textContent=rows[index]?fmt(rows[index].value/10000)+' 万人次':'—';Object.assign(row.dataset,{indicator:'scenicIn',area:context.area,start:holiday[0],end:holiday[1]});if(holiday[0]>model.asOf)delete row.dataset.indicator;});
         const more=panel.querySelector('[data-legacy]');if(more)Object.assign(more.dataset,{start:holiday[0],end:holiday[1]});
-        if(holiday[0]>model.asOf){panel.querySelectorAll('[data-indicator]').forEach(element=>delete element.dataset.indicator);if(more)more.onclick=()=>toast('国庆尚未发生，暂不生成演示发生量');}
+        if(holiday[0]>model.asOf){panel.querySelectorAll('[data-indicator]').forEach(element=>delete element.dataset.indicator);if(more)more.onclick=()=>toast('国庆尚未发生，暂不生成演示游客数');}
       }
       if(title.includes('客流变化'))panel.querySelectorAll('.kpi').forEach(element=>{if(element.textContent.includes('同比增速')){element.querySelector('b').textContent='待接入';element.querySelector('small').textContent='缺少上年同期底表';}});
       if(title.includes('夜间消费差值')){const heading=panel.querySelector('h2');heading.firstChild.textContent='夜间旅游消费趋势';}

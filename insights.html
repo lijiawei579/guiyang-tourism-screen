@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#05182d">
+  <title>区县文旅周报 · 贵阳数智文旅平台</title>
+  <link rel="stylesheet" href="weekly-reports.css">
+  <script defer src="weekly-reports.js"></script>
+</head>
+<body>
+  <div id="weekly-screen">
+    <header class="masthead">
+      <a class="back-link" href="index.html#overview">↖ 返回综合大屏</a>
+      <div class="identity"><small>GUIYANG SMART TOURISM · WEEKLY BRIEF</small><h1>贵阳数智文旅平台</h1></div>
+      <div class="header-status"><span class="status-dot"></span> 区县文旅周报 <span class="demo-label">演示数据</span></div>
+    </header>
+    <main class="archive-shell">
+      <div class="archive-heading"><div><span class="eyebrow">COUNTY TOURISM / WEEKLY REPORTS</span><h2><span id="scope-name">清镇市</span> <span class="title-divider">/</span> 文旅周报</h2><p>把一周的游客声音，变成下一周的行动。</p></div><div class="archive-controls"><label>当前区县 <select id="region" aria-label="选择区县"></select></label><button id="generate" class="primary"><span>＋</span> 生成最近一期</button></div></div>
+      <div class="archive-meta"><div><span class="status-dot"></span><span>近六周报告</span><span class="meta-divider"></span><span>每周一期 · 周一汇总</span></div><span>点击报告，查看完整周报 <span class="arrow">↗</span></span></div>
+      <section id="report-list" class="report-grid" aria-label="近六周区县文旅周报"></section>
+      <div class="archive-bottom"><span><i></i> 关注热点 <i></i> 问题聚焦 <i></i> 线路趋势 <i></i> 行动建议</span><span>已展示最近 6 期周报</span></div>
+    </main>
+    <footer><span>原型演示 · 所有统计均为模拟数据 · 未运行真实采集与定时生成</span><span>统计周期：周一至周日 <b>GUIYANG / WEEKLY BRIEF</b></span></footer>
+  </div>
+  <dialog id="report-dialog" aria-labelledby="report-title"></dialog>
+  <div id="notice" role="status" aria-live="polite"></div>
+</body>
+</html>

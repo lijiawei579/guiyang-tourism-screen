@@ -109,6 +109,10 @@ async function mountBoundaries() {
         const center = feature.properties.centroid || feature.properties.center;
         const labelPosition = center ? [center[1],center[0]] : layer.getBounds().getCenter();
         const label = L.marker(labelPosition, {icon:L.divIcon({className:'boundary-label',html:`<span>${name}</span>`,iconSize:[100,24],iconAnchor:[50,12]}),keyboard:true,title:name}).addTo(instance);
+        if(state.page==='entertain'&&globalThis.activityMapBubble&&!selectedCounty){
+          label.setOpacity(0);
+          L.marker(labelPosition,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(name),iconSize:[84,86],iconAnchor:[42,72]}),keyboard:false,zIndexOffset:800}).addTo(instance);
+        }
         function select() {
           selectedFunctional = null;
           if (!selectedCounty) { selectedCounty = feature; countyParent = state.area; state.district = {name,index}; }
@@ -139,6 +143,9 @@ async function mountBoundaries() {
           const properties = feature.properties;
           fullBounds.extend(layer.getBounds());
           const labelPoint = properties.id === 'guian' ? [26.459,106.472] : [26.50,106.84];
+          if(state.page==='entertain'&&globalThis.activityMapBubble){
+            L.marker(labelPoint,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(properties.id==='guian'?'贵安新区':'双龙航空港经济区'),iconSize:[84,86],iconAnchor:[42,72]}),keyboard:false,zIndexOffset:900}).addTo(instance);
+          }
           const label = L.marker(labelPoint, {icon:L.divIcon({className:'functional-boundary-label',html:`<span style="--layer-color:${properties.color}">${properties.id === 'guian' ? '贵安新区' : '双龙航空港'}</span>`,iconSize:[92,22],iconAnchor:[46,11]}),keyboard:true,title:properties.name,zIndexOffset:500}).addTo(instance);
           const read = () => {
             if(state.page!=='emergency'&&globalThis.IndicatorData){readBoundary(feature,0);$('#boundary-readout').insertAdjacentHTML('beforeend','<small>几何为近似参考范围；业务按独立管理归属统计</small>');return;}

@@ -7,7 +7,7 @@ industryDrawer.append(document.querySelector('#industries'));
 const topicNavigation = document.createElement('nav');
 topicNavigation.className = 'primary-topics';
 topicNavigation.setAttribute('aria-label','文化旅游专题');
-topicNavigation.innerHTML = '<a href="screens.html#culture">文化</a><a href="screens.html#tourism">旅游</a>';
+topicNavigation.innerHTML = '<a href="screens.html#culture">文化</a><a href="screens.html#tourism">旅游</a><a href="insights.html">文旅周报</a>';
 document.querySelector('#legacy-screen').append(topicNavigation);
 const topicStyles = document.createElement('link');
 topicStyles.rel = 'stylesheet';

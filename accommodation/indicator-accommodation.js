@@ -21,7 +21,7 @@
     $('#trendChart').setAttribute('viewBox',`0 0 ${width} 122`);
     $('#trendChart').innerHTML=rows.map((row,index)=>{const size=row.value/max*90;return `<g data-indicator="hotelGuests" data-area="${context().area}" data-type="${context().type}" data-start="${row.start}" data-end="${row.end}" ${group==='hour'?`data-hour="${row.hour}"`:''}><rect x="${14+index*step}" y="${108-size}" width="${step*.65}" height="${size}" fill="#42ddc4"><title>${row.bucket}：${row.value}人次</title></rect></g>`;}).join('');
     $('#trendAxis').innerHTML=rows.map(row=>`<span>${group==='hour'?row.bucket.slice(0,2):row.bucket.slice(5)}</span>`).join('');
-    $('#trendTitle').textContent=group==='hour'?'全天24小时接待发生量（模拟）':group==='day'?'所选期间逐日接待发生量':'所选期间逐月接待发生量';
+    $('#trendTitle').textContent=group==='hour'?'全天24小时接待游客数（模拟）':group==='day'?'所选期间逐日接待游客数':'所选期间逐月接待游客数';
     $('#trendCompare').textContent='同一底表汇总 · 点击图形下钻';
     $('#trendCanvas').style.minWidth=width+'px';
     const legend=document.querySelector('.trend-legend');if(legend)legend.innerHTML='<span class="reception">住宿接待人次</span>';

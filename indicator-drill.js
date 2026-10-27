@@ -29,7 +29,7 @@
       if(context.metricOptions?.length){
         const switcher=document.createElement('label');switcher.className='id-metric-switch';switcher.innerHTML=`场馆 <select aria-label="选择场馆">${context.metricOptions.map(option=>`<option value="${escape(option.key)}" ${option.key===current.key?'selected':''}>${escape(option.name)}</option>`).join('')}</select>`;
         dialog.querySelector('.id-scope').before(switcher);
-        switcher.querySelector('select').onchange=event=>open(event.target.value,{...context,area:'',entityId:null,entityName:null,group:current.group});
+        switcher.querySelector('select').onchange=event=>open(event.target.value,{...context,area:context.lockArea?context.area:'',entityId:null,entityName:null,group:current.group});
         dialog.querySelector('.id-filter [name="area"]').closest('label').style.display='none';
       }
       dialog.classList.toggle('id-time-view',timeView);

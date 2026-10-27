@@ -1,7 +1,7 @@
 const navs=[['overview','全市概览'],['analysis','数据分析'],['emergency','应急指挥']];
 const metas={eat:['吃','餐饮消费','575.42'],stay:['住','住宿产业','467.30'],transport:['行','交通运行','80.46'],travel:['游','景区接待','385.98'],shop:['购','旅游购物','359.69'],entertain:['娱','文娱活动','99.93']};
 const areas=['贵阳市'];
-const state={page:'overview',area:'贵阳市',period:'本年',tab:{},month:9,day:29,resolved:false};
+const state={page:'entertain',area:'贵阳市',period:'本年',tab:{},month:9,day:29,resolved:false};
 const $=selector=>document.querySelector(selector);
 const fmt=value=>Number(value).toLocaleString('zh-CN',{maximumFractionDigits:2});
 const factor=()=> (state.area==='全省'?1.8:state.area==='贵阳市'?1:0.36+areas.indexOf(state.area)*.046)*(state.district ? .07 + state.district.index * .012 : 1)*(state.period==='本年'?1:state.period==='本月'?.103:.00369);

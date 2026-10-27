@@ -67,6 +67,20 @@ function upBoundary() {
   state.area = '贵阳市';
   render();
 }
+// Reuse the same county-level map state for the entertainment area selector.
+globalThis.drillActivityArea = async function(name) {
+  if (!name || ['贵阳市','贵阳贵安'].includes(name)) { upBoundary(); return; }
+  const [city, functional] = await Promise.all([boundaryData('guiyang.json'), boundaryData('functional-boundaries.json')]);
+  if (state.page !== 'entertain') return;
+  const feature = [...city.features,...functional.features].find(row=>row.properties.name===name);
+  if (!feature) return;
+  selectedCounty = feature;
+  selectedFunctional = null;
+  countyParent = '贵阳市';
+  state.area = '贵阳市';
+  state.district = {name,index:Math.max(0,[...city.features,...functional.features].indexOf(feature))};
+  render();
+};
 function readBoundary(feature, index) {
   const metric = boundaryMetrics[state.page];
   if(state.page!=='emergency'&&globalThis.IndicatorData){
@@ -108,18 +122,20 @@ async function mountBoundaries() {
         const name = boundaryName(feature.properties.name);
         const center = feature.properties.centroid || feature.properties.center;
         const labelPosition = center ? [center[1],center[0]] : layer.getBounds().getCenter();
-        const label = L.marker(labelPosition, {icon:L.divIcon({className:'boundary-label',html:`<span>${name}</span>`,iconSize:[100,24],iconAnchor:[50,12]}),keyboard:true,title:name}).addTo(instance);
-        if(state.page==='entertain'&&globalThis.activityMapBubble&&!selectedCounty){
-          label.setOpacity(0);
-          L.marker(labelPosition,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(name),iconSize:[84,86],iconAnchor:[42,72]}),keyboard:false,zIndexOffset:800}).addTo(instance);
+        const activityMode = state.page==='entertain'&&globalThis.activityMapBubble;
+        // Invisible labels and the transparent icon box must not intercept polygon clicks.
+        const label = activityMode ? null : L.marker(labelPosition, {icon:L.divIcon({className:'boundary-label',html:`<span>${name}</span>`,iconSize:[100,24],iconAnchor:[50,12]}),keyboard:true,autoPanOnFocus:false,title:name}).addTo(instance);
+        if(activityMode){
+          L.marker(labelPosition,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(name),iconSize:[84,86],iconAnchor:[42,72]}),interactive:false,keyboard:false,autoPanOnFocus:false,zIndexOffset:800}).addTo(instance);
         }
-        function select() {
+        function select(event) {
+          event?.originalEvent?.stopPropagation();
           selectedFunctional = null;
           if (!selectedCounty) { selectedCounty = feature; countyParent = state.area; state.district = {name,index}; }
           else { readBoundary(feature,index); return; }
           render();
         }
-        label.on('click',select);
+        label?.on('click',select);
         layer.on('mouseover',() => {layer.setStyle({fillColor:'#277c9c',weight:2});readBoundary(feature,index)});
         layer.on('mouseout',() => layer.setStyle(style));
         layer.on('click',select);
@@ -144,15 +160,17 @@ async function mountBoundaries() {
           fullBounds.extend(layer.getBounds());
           const labelPoint = properties.id === 'guian' ? [26.459,106.472] : [26.50,106.84];
           if(state.page==='entertain'&&globalThis.activityMapBubble){
-            L.marker(labelPoint,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(properties.id==='guian'?'贵安新区':'双龙航空港经济区'),iconSize:[84,86],iconAnchor:[42,72]}),keyboard:false,zIndexOffset:900}).addTo(instance);
+            L.marker(labelPoint,{icon:L.divIcon({className:'activity-map-marker',html:activityMapBubble(properties.id==='guian'?'贵安新区':'双龙航空港经济区'),iconSize:[84,86],iconAnchor:[42,72]}),interactive:false,keyboard:false,autoPanOnFocus:false,zIndexOffset:900}).addTo(instance);
           }
-          const label = L.marker(labelPoint, {icon:L.divIcon({className:'functional-boundary-label',html:`<span style="--layer-color:${properties.color}">${properties.id === 'guian' ? '贵安新区' : '双龙航空港'}</span>`,iconSize:[92,22],iconAnchor:[46,11]}),keyboard:true,title:properties.name,zIndexOffset:500}).addTo(instance);
+          const label = state.page==='entertain' ? null : L.marker(labelPoint, {icon:L.divIcon({className:'functional-boundary-label',html:`<span style="--layer-color:${properties.color}">${properties.id === 'guian' ? '贵安新区' : '双龙航空港'}</span>`,iconSize:[92,22],iconAnchor:[46,11]}),keyboard:true,autoPanOnFocus:false,title:properties.name,zIndexOffset:500}).addTo(instance);
           const read = () => {
             if(state.page!=='emergency'&&globalThis.IndicatorData){readBoundary(feature,0);$('#boundary-readout').insertAdjacentHTML('beforeend','<small>几何为近似参考范围；业务按独立管理归属统计</small>');return;}
             $('#boundary-readout').innerHTML = `<span>${properties.name}</span><strong class="functional-scope">${properties.id === 'guian' ? '贵阳境内参考范围' : '2015—2030规划范围'}</strong><small>官方图近似描绘 · 不参与区县统计</small>`;
           };
-          layer.bindPopup(`<div class="functional-boundary-popup"><b>${properties.name}</b><p>${properties.scope}</p><small>按官方图片近似描绘，非官方矢量边界。</small><a href="${properties.source}" target="_blank" rel="noopener noreferrer">查看官方来源 ↗</a></div>`,{className:'functional-popup',maxWidth:270});
-          const focus = () => {
+          if(state.page!=='entertain')layer.bindPopup(`<div class="functional-boundary-popup"><b>${properties.name}</b><p>${properties.scope}</p><small>按官方图片近似描绘，非官方矢量边界。</small><a href="${properties.source}" target="_blank" rel="noopener noreferrer">查看官方来源 ↗</a></div>`,{className:'functional-popup',maxWidth:270});
+          const focus = event => {
+            event?.originalEvent?.stopPropagation();
+            if(state.page==='entertain'&&globalThis.drillActivityArea){drillActivityArea(properties.name);return;}
             selectedFunctional = feature;
             if(state.page!=='emergency'&&globalThis.IndicatorData){countyParent=state.area;state.district={name:properties.name,index:properties.id==='guian'?10:11};render();return;}
             instance.fitBounds(layer.getBounds(),{padding:[70,55],maxZoom:12});
@@ -162,7 +180,7 @@ async function mountBoundaries() {
             read();
             layer.openPopup(layer.getBounds().getCenter());
           };
-          label.on('click',focus);
+          label?.on('click',focus);
           layer.on('click',focus);
           layer.on('mouseover',() => {layer.setStyle({fillOpacity:.62,weight:4});read();});
           layer.on('mouseout',() => layer.setStyle({fillOpacity:.46,weight:3.4}));
@@ -177,7 +195,7 @@ async function mountBoundaries() {
         }
       }).addTo(instance);
     }
-    instance.fitBounds(focusedLayer ? focusedLayer.layer.getBounds() : fullBounds,{padding:focusedLayer ? [70,55] : document.querySelector('#legacy-screen')?[12,8]:[45,30],maxZoom:12});
+    instance.fitBounds(focusedLayer ? focusedLayer.layer.getBounds() : fullBounds,{padding:focusedLayer ? [70,55] : document.querySelector('#legacy-screen')?[12,8]:[45,30],maxZoom:12,animate:false});
     $('#boundary-status').textContent = selectedCounty ? '已到区县级 · 点击返回上级' : focusedLayer ? '功能区参考范围 · 点击返回全市' : functionalData ? '点击区县下钻 · 点击彩色范围聚焦' : '区县已加载 · 功能区图层加载失败，请刷新';
     $('#boundary-status').setAttribute('data-error',String(!functionalData));
     if (focusedLayer) focusedLayer.read();

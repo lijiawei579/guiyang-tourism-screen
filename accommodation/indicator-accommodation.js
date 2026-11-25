@@ -7,7 +7,7 @@
   $('#startDate').value='2026-09-01';$('#endDate').value=model.asOf;
   activeFilters.startDate='2026-09-01';activeFilters.endDate=model.asOf;
   $('#regionFilter').innerHTML='<option value="贵阳市">贵阳贵安 · 全域</option>'+model.regions.map(area=>`<option>${area}</option>`).join('');
-  document.querySelector('.heat-legend span').textContent='同期间接待人次';
+  document.querySelector('.heat-legend span').textContent='同期间游客接待人次';
   document.querySelector('#operationContent').closest('.panel').querySelector('h2').textContent='平均房价与住宿时段';
   renderKpis=function(){
     $('#kpis').innerHTML=[['hotelGuests','所选期间住宿接待','万人次'],['roomRevenue','所选期间客房收入','万元'],['occupancy','客房入住率','%'],['roomPrice','平均房价','元/间夜'],['soldNights','售出间夜','间夜'],['stayLength','平均住宿时长','晚/人次']].map(([key,name,unit])=>card(key,name,unit).replace('<article ','<article class="kpi kpi-reception" ')).join('');
@@ -21,10 +21,10 @@
     $('#trendChart').setAttribute('viewBox',`0 0 ${width} 122`);
     $('#trendChart').innerHTML=rows.map((row,index)=>{const size=row.value/max*90;return `<g data-indicator="hotelGuests" data-area="${context().area}" data-type="${context().type}" data-start="${row.start}" data-end="${row.end}" ${group==='hour'?`data-hour="${row.hour}"`:''}><rect x="${14+index*step}" y="${108-size}" width="${step*.65}" height="${size}" fill="#42ddc4"><title>${row.bucket}：${row.value}人次</title></rect></g>`;}).join('');
     $('#trendAxis').innerHTML=rows.map(row=>`<span>${group==='hour'?row.bucket.slice(0,2):row.bucket.slice(5)}</span>`).join('');
-    $('#trendTitle').textContent=group==='hour'?'全天24小时接待游客数（模拟）':group==='day'?'所选期间逐日接待游客数':'所选期间逐月接待游客数';
+    $('#trendTitle').textContent=group==='hour'?'全天24小时游客接待人次（模拟）':group==='day'?'所选期间逐日游客接待人次':'所选期间逐月游客接待人次';
     $('#trendCompare').textContent='同一底表汇总 · 点击图形下钻';
     $('#trendCanvas').style.minWidth=width+'px';
-    const legend=document.querySelector('.trend-legend');if(legend)legend.innerHTML='<span class="reception">住宿接待人次</span>';
+    const legend=document.querySelector('.trend-legend');if(legend)legend.innerHTML='<span class="reception">住宿游客接待人次</span>';
   };
   renderSupply=function(){
     const scope={area:context().area};const types=['酒店','民宿','客栈及其他'];
@@ -52,7 +52,7 @@
     $('#opportunityContent').innerHTML=`<div class="gap-summary">${[['soldNights','售出间夜','间夜'],['availableNights','可售间夜','间夜'],['roomRevenue','客房收入','元']].map(([key,name,unit])=>card(key,name,unit)).join('')}</div><div class="consumption-note">入住率=售出间夜÷可售间夜；平均房价=客房收入÷售出间夜。跨市轨迹与未到访人群缺少可核验依据，暂不展示推测值。</div>`;
   };
   const originalUpdate=updateMap;
-  updateMap=function(){originalUpdate();$('#mapTitle').textContent='区县住宿接待分布';$('#mapInsight').textContent='颜色按同期间接待人次分级，点击区县联动';$('#mapRanking').innerHTML=model.query('hotelGuests',{...context(),group:'area'}).sort((first,second)=>second.value-first.value).slice(0,4).map(row=>`<span class="rank-chip" ${attributes('hotelGuests',{area:row.bucket})}>${row.bucket} ${row.value.toLocaleString('zh-CN')}人次</span>`).join('');if(!mapDrill.county)$('#currentRegionLabel').textContent='贵阳贵安 · 全域';};
+  updateMap=function(){originalUpdate();$('#mapTitle').textContent='区县住宿接待分布';$('#mapInsight').textContent='颜色按同期间游客接待人次分级，点击区县联动';$('#mapRanking').innerHTML=model.query('hotelGuests',{...context(),group:'area'}).sort((first,second)=>second.value-first.value).slice(0,4).map(row=>`<span class="rank-chip" ${attributes('hotelGuests',{area:row.bucket})}>${row.bucket} ${row.value.toLocaleString('zh-CN')}人次</span>`).join('');if(!mapDrill.county)$('#currentRegionLabel').textContent='贵阳贵安 · 全域';};
   renderMap();
   renderAll();
 })();

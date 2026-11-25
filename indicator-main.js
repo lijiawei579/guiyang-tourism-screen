@@ -2,7 +2,7 @@
   const model=IndicatorData;
   const pageKeys={eat:'eatSpend',stay:'staySpend',transport:'transportSpend',travel:'travelSpend',shop:'shopSpend',entertain:'entertainSpend'};
   const mainContext=period=>({period:period||state.period,area:state.district?.name||''});
-  const labelKey=label=>/夜间人均/.test(label)?'nightPerCapita':/人均旅游消费|人均花费/.test(label)?'perCapita':/夜间消费总额/.test(label)?'nightSpend':/旅游总消费|旅游消费金额|累计消费/.test(label)?'spend':/累计接待|接待游客/.test(label)?'visitors':/入住率/.test(label)?'occupancy':null;
+  const labelKey=label=>/夜间人均/.test(label)?'nightPerCapita':/人均旅游消费|人均花费/.test(label)?'perCapita':/夜间消费总额/.test(label)?'nightSpend':/旅游总消费|旅游消费金额|累计消费/.test(label)?'spend':/游客接待人次|累计接待|接待游客/.test(label)?'visitors':/入住率/.test(label)?'occupancy':null;
   const metricFormat=(key,context,unit)=>model.summary(key,context,unit);
   const baseChart=chart;
   chart=function(key='chart',bar=false){
@@ -52,11 +52,11 @@
     document.querySelectorAll('#app .kpi').forEach(element=>{
       const label=element.querySelector('span')?.textContent||'';
       let key=labelKey(label),period=state.period;
-      if(/本年累计/.test(label))period='本年';
-      if(/本月累计/.test(label))period='本月';
-      if(/昨日累计/.test(label))period='昨日';
+      if(/本年/.test(label))period='本年';
+      if(/本月/.test(label))period='本月';
+      if(/昨日/.test(label))period='昨日';
       const bounds=/上季/.test(label)?{start:'2026-04-01',end:'2026-06-30'}:/上月/.test(label)?{start:'2026-08-01',end:'2026-08-31'}:/上周/.test(label)?{start:'2026-09-21',end:'2026-09-27'}:model.periodRange(period);
-      if(state.page==='travel'&&/累计接待/.test(label))key='scenicIn';
+      if(state.page==='travel'&&/游客接待人次|累计接待/.test(label))key='scenicIn';
       if(metas[state.page]&&/消费总额|旅游购物消费|娱乐消费/.test(label))key=pageKeys[state.page];
       if(!key)return;
       const unit=element.querySelector('small')?.textContent?.trim()||model.definitions[key].unit;
@@ -82,7 +82,7 @@
         const rows=model.query('scenicIn',{...context,start:holiday[0],end:holiday[1],group:'entity'}).sort((first,second)=>second.value-first.value).slice(0,3);
         panel.querySelectorAll('tbody tr').forEach((row,index)=>{row.children[1].textContent=rows[index]?.bucket||'待发生';row.children[2].textContent=rows[index]?fmt(rows[index].value/10000)+' 万人次':'—';Object.assign(row.dataset,{indicator:'scenicIn',area:context.area,start:holiday[0],end:holiday[1]});if(holiday[0]>model.asOf)delete row.dataset.indicator;});
         const more=panel.querySelector('[data-legacy]');if(more)Object.assign(more.dataset,{start:holiday[0],end:holiday[1]});
-        if(holiday[0]>model.asOf){panel.querySelectorAll('[data-indicator]').forEach(element=>delete element.dataset.indicator);if(more)more.onclick=()=>toast('国庆尚未发生，暂不生成演示游客数');}
+        if(holiday[0]>model.asOf){panel.querySelectorAll('[data-indicator]').forEach(element=>delete element.dataset.indicator);if(more)more.onclick=()=>toast('国庆尚未发生，暂不生成演示游客接待人次');}
       }
       if(title.includes('客流变化'))panel.querySelectorAll('.kpi').forEach(element=>{if(element.textContent.includes('同比增速')){element.querySelector('b').textContent='待接入';element.querySelector('small').textContent='缺少上年同期底表';}});
       if(title.includes('夜间消费差值')){const heading=panel.querySelector('h2');heading.firstChild.textContent='夜间旅游消费趋势';}

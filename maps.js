@@ -1,11 +1,11 @@
 const boundaryMetrics = {
-  overview:['接待游客','万人次',1286.4],
+  overview:['游客接待人次','万人次',1286.4],
   analysis:['客流环比','%',12.4],
   emergency:['预警事件','起',18],
   eat:['餐饮消费','亿元',57.54],
   stay:['入住率','%',62.5],
   transport:['进入车辆','万辆',126.4],
-  travel:['景区接待','万人次',285.69],
+  travel:['景区游客接待人次','万人次',285.69],
   shop:['购物消费','亿元',35.96],
   entertain:['活动数量','场',32]
 };
@@ -48,7 +48,7 @@ function boundaryValue(index) {
   return Number(value.toFixed(2));
 }
 map = function () {
-  const metric = state.page!=='emergency'&&globalThis.IndicatorData?[(state.page==='analysis'?'游客接待':state.page==='stay'?'住宿接待':state.page==='transport'?'交通旅游消费':state.page==='entertain'?'文娱旅游消费':boundaryMetrics[state.page][0]),['eat','transport','shop','entertain'].includes(state.page)?'亿元':'万人次']:boundaryMetrics[state.page];
+  const metric = state.page!=='emergency'&&globalThis.IndicatorData?[(state.page==='analysis'?'游客接待人次':state.page==='stay'?'住宿游客接待人次':state.page==='transport'?'交通旅游消费':state.page==='entertain'?'文娱旅游消费':boundaryMetrics[state.page][0]),['eat','transport','shop','entertain'].includes(state.page)?'亿元':'万人次']:boundaryMetrics[state.page];
   const title = selectedCounty?.properties.name || selectedFunctional?.properties.name || '贵阳市';
   return `<section class="boundary-panel"><div class="boundary-heading"><div><small>REGIONAL OVERVIEW</small><h2>${title}</h2></div><button id="boundary-back" ${!selectedCounty && !selectedFunctional ? 'disabled' : ''}>← 返回上级</button></div><div class="boundary-breadcrumb"><button id="boundary-root">贵阳市</button>${selectedCounty || selectedFunctional ? ` / <span>${title}</span>` : ''}</div>${!selectedCounty ? `<div class="functional-layer-switches" aria-label="参考范围图层"><span>叠加图层</span>${[['guian','贵安新区','#be9bf2'],['shuanglong','双龙航空港','#ffd16b']].map(([key,name,color])=>`<button data-functional-toggle="${key}" aria-pressed="${functionalVisibility[key]}" style="--layer-color:${color}"><i></i>${name}</button>`).join('')}</div>` : ''}<div id="geo-map" class="boundary-canvas" aria-label="${title}行政区与功能区参考范围"></div><div id="boundary-status" class="boundary-status" role="status">正在加载边界…</div><div id="boundary-readout" class="boundary-readout"><span>${metric[0]} · ${state.period}</span><strong>悬停查看 · 点击下钻</strong><small>业务演示数据</small></div><div class="boundary-note">实线：区县边界 · 虚线：功能区近似参考范围<br>贵安仅贵阳境内 · 双龙为历史规划范围</div></section>`;
 };
@@ -198,6 +198,7 @@ async function mountBoundaries() {
     instance.fitBounds(focusedLayer ? focusedLayer.layer.getBounds() : fullBounds,{padding:focusedLayer ? [70,55] : document.querySelector('#legacy-screen')?[12,8]:[45,30],maxZoom:12,animate:false});
     $('#boundary-status').textContent = selectedCounty ? '已到区县级 · 点击返回上级' : focusedLayer ? '功能区参考范围 · 点击返回全市' : functionalData ? '点击区县下钻 · 点击彩色范围聚焦' : '区县已加载 · 功能区图层加载失败，请刷新';
     $('#boundary-status').setAttribute('data-error',String(!functionalData));
+    globalThis.mountScenicOverview?.(instance, data, functionalData, selectedCounty?.properties.name || selectedFunctional?.properties.name || '');
     if (focusedLayer) focusedLayer.read();
     if (selectedCounty) readBoundary(selectedCounty,state.district?.index || 0);
   } catch (error) {

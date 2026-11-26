@@ -15,13 +15,8 @@
     <header class="panorama-header">
       <div class="header-left"><span class="header-signal"></span><span>贵阳贵安 · 文旅运行全景</span><time id="wall-clock"></time></div>
       <div class="panorama-brand"><span class="brand-lines" aria-hidden="true"></span><div><h1>贵阳数智文旅平台</h1><p>GUIYANG · CULTURE & TOURISM OBSERVATORY</p></div><span class="brand-lines right" aria-hidden="true"></span></div>
-      <div class="header-right"><a href="index.html#overview">单屏首页 ↗</a><button id="fullscreen" aria-label="全屏展示">⛶ 全屏展示</button><span class="demo-indicator">演示数据</span></div>
+      <div class="header-right"><div id="years" role="group" aria-label="统计年份"><button data-year="2026" aria-pressed="true">2026</button><button data-year="2027" aria-pressed="false">2027</button></div><a href="index.html#overview">单屏首页 ↗</a><button id="fullscreen" aria-label="全屏展示">⛶ 全屏展示</button><span class="demo-indicator">演示数据</span></div>
     </header>
-    <div class="panorama-toolbar">
-      <div class="global-scope"><span class="scope-icon">⌖</span><b id="scope-label">贵阳贵安 · 全域</b><button id="reset-area" hidden>← 返回全域</button></div>
-      <div class="global-controls"><label>所属区域<select id="region" aria-label="所属区域"></select></label><span class="toolbar-divider"></span><span>统计周期</span><div id="periods" role="group" aria-label="统计周期"><button data-period="本年" aria-pressed="true">本年</button><button data-period="本月" aria-pressed="false">本月</button><button data-period="昨日" aria-pressed="false">昨日</button></div><span class="toolbar-divider"></span><span id="data-range"></span></div>
-      <div class="toolbar-meta"><span>文化服务</span><i></i><span>全域运行</span><i></i><span>旅游产业</span></div>
-    </div>
     <div class="panorama-zones">
       <section class="panorama-zone culture-zone" aria-label="文化场馆与活动">
         <div class="zone-heading"><span class="zone-number">01</span><h2>文化场馆与活动</h2><span>CULTURAL VITALITY</span><i></i></div>
@@ -31,18 +26,18 @@
       <section class="panorama-zone overview-zone" aria-label="全域运行一张图">
         <div class="zone-heading"><span class="zone-number">02</span><h2>全域运行一张图</h2><span>REGIONAL OVERVIEW</span><i></i></div>
         <section id="overview-metrics" class="headline-metrics" aria-label="综合首页核心指标"></section>
-        <div class="overview-content">
-          <div class="overview-map-row">
-          <aside id="map-left" class="map-side map-side-left" aria-label="全省客流画像"></aside>
-          <section id="map-panel" class="map-panel boundary-panel" aria-label="贵阳贵安地图与区域联动">
-            <div class="map-toolbar"><div class="map-mode-switch" role="group" aria-label="地图展示维度"><button data-map-mode="heat" aria-pressed="true">景区热度</button><button data-map-mode="area" aria-pressed="false">区域客流</button></div><span id="map-scope">贵阳贵安</span><button id="map-up" hidden>← 返回全域</button></div>
+        <div class="overview-layout">
+          <div id="overview-left" class="overview-left"></div>
+          <section id="map-panel" class="map-panel boundary-panel" aria-label="贵阳贵安景区热度地图">
+            <div class="map-stage" aria-hidden="true"></div>
+            <div class="map-toolbar">
+              <h3>景区热度</h3><span id="map-scope">贵阳贵安</span><button id="map-up" hidden>← 返回全域</button>
+            </div>
             <div id="unified-map" aria-label="贵阳贵安行政区及贵安双龙参考边界"></div>
             <div class="boundary-readout"></div><div class="boundary-note"></div>
             <div id="map-error" role="status" hidden></div>
           </section>
-          <aside id="map-right" class="map-side map-side-right" aria-label="区县与功能区游客接待"></aside>
-          </div>
-          <div id="overview-bottom" class="overview-bottom"></div>
+          <div id="overview-right" class="overview-right"></div>
         </div>
       </section>
       <section class="panorama-zone tourism-zone" aria-label="景区运行与服务">
